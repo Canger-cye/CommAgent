@@ -1,0 +1,42 @@
+# ==== Python ====
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.eggs/
+.venv/
+venv/
+env/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# ==== 运行时与密钥（严禁提交）====
+outputs/
+.env
+*.pem
+*.key
+llm_config.json
+
+# ==== 打包产物 ====
+dist/
+build/
+release/
+*.zip
+*.7z
+*.exe
+*.msi
+*.dmg
+
+# ==== 系统 / 编辑器 ====
+.DS_Store
+Thumbs.db
+desktop.ini
+.idea/
+.vscode/
+*.log
+*.tmp
+
+# ==== 媒体与办公文档（按需提交）====
+*.mp4
+*.mov

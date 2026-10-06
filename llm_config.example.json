@@ -1,0 +1,8 @@
+{
+  "llm_mode": "mock",
+  "llm_model": "gpt-4o-mini",
+  "llm_api_base": "https://api.openai.com/v1",
+  "llm_api_key": "",
+  "llm_timeout": 30,
+  "llm_temperature": 0.3
+}

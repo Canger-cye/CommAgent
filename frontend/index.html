@@ -1,0 +1,399 @@
+<!-- 仅供全球校园人工智能算法精英大赛使用 -->
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CommAgent · 通感算智运维台</title>
+  <link rel="stylesheet" href="static/style.css" />
+</head>
+<body>
+<p data-aigc-mark="1" style="margin:0 0 8px;font-size:10px;line-height:1.3;color:#6b6560;font-weight:400;">全球校园人工智能算法精英大赛参赛演示</p>
+
+  <div class="app">
+    <!-- 顶栏 -->
+    <header class="topbar">
+      <div class="brand">
+        <div class="mark" aria-hidden="true">
+          <svg width="28" height="28" viewBox="0 0 28 28">
+            <circle cx="14" cy="14" r="3" fill="currentColor"/>
+            <path d="M14 4 A10 10 0 0 1 24 14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" class="arc a1"/>
+            <path d="M14 8 A6 6 0 0 1 20 14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" class="arc a2"/>
+            <path d="M14 24 A10 10 0 0 1 4 14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" class="arc a3"/>
+            <path d="M14 20 A6 6 0 0 1 8 14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" class="arc a4"/>
+          </svg>
+        </div>
+        <div class="brand-text">
+          <strong>CommAgent</strong>
+          <span>通感算智运维台</span>
+        </div>
+      </div>
+
+      <div class="top-meta">
+        <div class="signal-strip" title="链路状态">
+          <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+        </div>
+        <button class="ghost-btn" id="btnSettings" type="button">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+            <circle cx="8" cy="8" r="2.2"/><path d="M8 1.5v2M8 12.5v2M1.5 8h2M12.5 8h2M3.2 3.2l1.4 1.4M11.4 11.4l1.4 1.4M12.8 3.2l-1.4 1.4M4.6 11.4l-1.4 1.4"/>
+          </svg>
+          模型设置
+        </button>
+        <div class="chip" id="llmChip">—</div>
+      </div>
+    </header>
+
+    <div class="body">
+      <!-- 侧栏 -->
+      <aside class="sidebar">
+        <nav class="nav">
+          <p class="nav-label">工作台</p>
+          <button class="nav-btn active" data-view="chat"><span class="ico">💬</span>运维对话</button>
+          <button class="nav-btn" data-view="link"><span class="ico">📡</span>链路预算</button>
+          <button class="nav-btn" data-view="beam"><span class="ico">📶</span>波束赋形</button>
+          <button class="nav-btn" data-view="interf"><span class="ico">⚡</span>干扰分析</button>
+          <p class="nav-label">诊断与优化</p>
+          <button class="nav-btn" data-view="diagnose"><span class="ico">🔍</span>KPI 诊断</button>
+          <button class="nav-btn" data-view="network"><span class="ico">🌐</span>网络拓扑</button>
+          <p class="nav-label">交付</p>
+          <button class="nav-btn" data-view="report"><span class="ico">📄</span>运维报告</button>
+          <button class="nav-btn" data-view="about"><span class="ico">ℹ️</span>架构说明</button>
+        </nav>
+        <div class="side-foot">
+          <div class="mini-status" id="statusCard">
+            <span class="dot"></span>
+            <div>
+              <em>服务状态</em>
+              <strong id="statusText">检测中…</strong>
+            </div>
+          </div>
+          <p class="version">v1.0 · 算法驱动 · 可复现</p>
+        </div>
+      </aside>
+
+      <!-- 主区 -->
+      <main class="main">
+        <!-- 对话 -->
+        <section class="view active" id="view-chat">
+          <div class="page-head">
+            <div>
+              <h2>运维对话</h2>
+              <p>说人话下指令，编排器自动拆给仿真 / 诊断 / 优化引擎</p>
+            </div>
+            <ol class="step-pills">
+              <li class="on">1 意图</li>
+              <li>2 工具</li>
+              <li>3 算数</li>
+              <li>4 结论</li>
+            </ol>
+          </div>
+
+          <div class="chat-shell">
+            <div class="chat-box" id="chatBox">
+              <div class="msg bot">
+                <div class="avatar">CA</div>
+                <div class="bubble">
+                  <p>指挥台就绪。你可以直接说：</p>
+                  <ul class="hints">
+                    <li>「帮我算 3.5GHz、100MHz、200m 的链路预算」</li>
+                    <li>「SINR 只有 -2dB，看看是哪里出了问题」</li>
+                    <li>「优化一下功率，把小区吞吐提上去」</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="quick" id="quickBar">
+              <button class="qbtn" data-q="帮我做 3.5GHz 100MHz 带宽、距离 200m 的链路预算和覆盖曲线">链路预算</button>
+              <button class="qbtn" data-q="分析 16 阵元波束赋形方向图和多用户波束分配">波束赋形</button>
+              <button class="qbtn" data-q="服务距离 150m，2 个同频干扰源，分析 SINR">干扰分析</button>
+              <button class="qbtn" data-q="SINR 是 -2dB，BLER 0.12，帮我做根因诊断">KPI 诊断</button>
+              <button class="qbtn" data-q="3 个基站 20 个用户组网，优化功率提升吞吐">功率优化</button>
+              <button class="qbtn" data-q="生成一份网络仿真与诊断报告">生成报告</button>
+            </div>
+            <div class="chat-input">
+              <input id="chatInput" type="text" placeholder="输入运维指令，回车发送…" autocomplete="off" />
+              <button id="sendBtn" type="button">发送</button>
+            </div>
+          </div>
+
+          <div class="result-panel" id="chatResult" hidden></div>
+        </section>
+
+        <!-- 链路 -->
+        <section class="view" id="view-link">
+          <div class="page-head">
+            <div>
+              <h2>链路预算</h2>
+              <p>3GPP UMa 简化路损 · 香农容量 · 覆盖曲线</p>
+            </div>
+          </div>
+          <div class="grid-2">
+            <div class="card">
+              <h3>参数</h3>
+              <div class="form-grid">
+                <label>距离 (m)<input id="lk_d" type="number" value="200" /></label>
+                <label>载波 (GHz)<input id="lk_fc" type="number" step="0.1" value="3.5" /></label>
+                <label>带宽 (MHz)<input id="lk_bw" type="number" value="100" /></label>
+                <label>发射功率 (dBm)<input id="lk_p" type="number" value="46" /></label>
+                <label>环境
+                  <select id="lk_env">
+                    <option value="urban">城区 UMa</option>
+                    <option value="rural">农村 RMa</option>
+                    <option value="indoor">室内 InH</option>
+                  </select>
+                </label>
+                <label>干扰 (dBm)<input id="lk_i" type="number" placeholder="留空 = 仅噪声" /></label>
+              </div>
+              <button class="primary" id="lk_run">运行仿真</button>
+            </div>
+            <div class="card">
+              <h3>结果</h3>
+              <div class="kpi-row" id="lk_kpi"></div>
+              <canvas id="lk_chart" width="640" height="280"></canvas>
+              <pre class="code" id="lk_detail"></pre>
+            </div>
+          </div>
+        </section>
+
+        <!-- 波束 -->
+        <section class="view" id="view-beam">
+          <div class="page-head">
+            <div>
+              <h2>波束赋形</h2>
+              <p>ULA 方向图 · 3dB 波束宽度 · 多用户分配</p>
+            </div>
+          </div>
+          <div class="grid-2">
+            <div class="card">
+              <h3>参数</h3>
+              <div class="form-grid">
+                <label>阵元数<input id="bm_n" type="number" value="16" /></label>
+                <label>峰值增益 (dBi)<input id="bm_g" type="number" value="18" /></label>
+                <label>电下倾 (°)<input id="bm_tilt" type="number" value="0" /></label>
+                <label>用户数<input id="bm_u" type="number" value="4" /></label>
+              </div>
+              <button class="primary" id="bm_run">生成方向图</button>
+            </div>
+            <div class="card">
+              <h3>方向图</h3>
+              <div class="kpi-row" id="bm_kpi"></div>
+              <canvas id="bm_chart" width="640" height="300"></canvas>
+              <pre class="code" id="bm_detail"></pre>
+            </div>
+          </div>
+        </section>
+
+        <!-- 干扰 -->
+        <section class="view" id="view-interf">
+          <div class="page-head">
+            <div>
+              <h2>干扰分析</h2>
+              <p>干扰受限判定 · SINR · 主干扰源定位</p>
+            </div>
+          </div>
+          <div class="grid-2">
+            <div class="card">
+              <h3>参数</h3>
+              <div class="form-grid">
+                <label>服务距离 (m)<input id="if_d" type="number" value="150" /></label>
+                <label>干扰源数量<input id="if_n" type="number" value="2" /></label>
+              </div>
+              <button class="primary" id="if_run">分析干扰</button>
+            </div>
+            <div class="card">
+              <h3>结果</h3>
+              <div class="kpi-row" id="if_kpi"></div>
+              <pre class="code" id="if_detail"></pre>
+            </div>
+          </div>
+        </section>
+
+        <!-- 诊断 -->
+        <section class="view" id="view-diagnose">
+          <div class="page-head">
+            <div>
+              <h2>KPI 根因诊断</h2>
+              <p>覆盖 → 干扰 → 负载 → 参数，按序排查</p>
+            </div>
+          </div>
+          <div class="grid-2">
+            <div class="card">
+              <h3>KPI 输入</h3>
+              <div class="form-grid">
+                <label>SINR (dB)<input id="dg_sinr" type="number" value="-2" /></label>
+                <label>RSRP (dBm)<input id="dg_rsrp" type="number" value="-105" /></label>
+                <label>干扰 (dBm)<input id="dg_i" type="number" value="-95" /></label>
+                <label>BLER<input id="dg_bler" type="number" step="0.01" value="0.12" /></label>
+                <label>PRB 利用率<input id="dg_prb" type="number" step="0.01" value="0.92" /></label>
+                <label>距离 (m)<input id="dg_d" type="number" value="350" /></label>
+              </div>
+              <button class="primary" id="dg_run">开始诊断</button>
+            </div>
+            <div class="card">
+              <h3>诊断结论</h3>
+              <div id="dg_out"><p class="muted">填好 KPI 后点「开始诊断」。</p></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 网络 -->
+        <section class="view" id="view-network">
+          <div class="page-head">
+            <div>
+              <h2>网络拓扑与优化</h2>
+              <p>蜂窝场景 · 用户关联 · 功率局部搜索</p>
+            </div>
+          </div>
+          <div class="grid-2">
+            <div class="card">
+              <h3>场景参数</h3>
+              <div class="form-grid">
+                <label>基站数<input id="nt_bs" type="number" value="3" /></label>
+                <label>用户数<input id="nt_ue" type="number" value="20" /></label>
+                <label>随机种子<input id="nt_seed" type="number" value="42" /></label>
+              </div>
+              <div class="btn-row">
+                <button class="primary" id="nt_run">生成场景</button>
+                <button class="secondary" id="nt_opt">功率优化</button>
+              </div>
+              <canvas id="nt_chart" width="560" height="340"></canvas>
+            </div>
+            <div class="card">
+              <h3>场景结果</h3>
+              <div class="kpi-row" id="nt_kpi"></div>
+              <pre class="code" id="nt_detail"></pre>
+            </div>
+          </div>
+        </section>
+
+        <!-- 报告 -->
+        <section class="view" id="view-report">
+          <div class="page-head">
+            <div>
+              <h2>运维报告</h2>
+              <p>由 ReportAgent 汇编，可直接贴进答辩材料</p>
+            </div>
+            <button class="primary" id="rp_run">生成报告</button>
+          </div>
+          <div class="card" id="rp_out">
+            <p class="muted">点右上角生成，或在对话框说「生成一份报告」。</p>
+          </div>
+        </section>
+
+        <!-- 关于 -->
+        <section class="view" id="view-about">
+          <div class="page-head">
+            <div>
+              <h2>架构说明</h2>
+              <p>算法可复现 · 智能体可解释 · 答辩无网可跑</p>
+            </div>
+          </div>
+          <div class="card">
+            <h3>多智能体闭环</h3>
+            <pre class="code">
+用户自然语言
+    │
+    ▼
+┌──────────────────┐
+│  意图理解 Agent   │  classify_intent + 实体抽取
+└────────┬─────────┘
+         ▼
+┌──────────────────┐
+│  编排器 Router    │  按意图分发
+└────────┬─────────┘
+    ┌────┼────┬─────────┬──────────┐
+    ▼    ▼    ▼         ▼          ▼
+  链路   波束  干扰    诊断      优化/报告
+  Agent  Agent Agent   Agent     Agent
+    │    │     │        │          │
+    └────┴─────┴────────┴──────────┘
+                 │
+                 ▼
+        确定性仿真引擎（路损 / 香农 / 阵列因子 / SINR）
+                 │
+                 ▼
+        运维台（对话 / 曲线 / 报告）</pre>
+            <h3>三条设计原则</h3>
+            <ul>
+              <li><b>LLM 只管说人话</b>，指标全部来自确定性仿真 —— 结果可复现、可审计。</li>
+              <li><b>模型可插拔</b>：右上角「模型设置」可在本地演示 / OpenAI / DeepSeek / Kimi / 千问 / GLM 间切换。</li>
+              <li><b>通信专业可解释</b>：路损、香农、阵列因子、SINR 都给公式和工程结论。</li>
+            </ul>
+            <h3>本地启动</h3>
+            <pre class="code">cd commagent
+pip install -r requirements.txt
+python run.py --llm mock --port 8787
+# 浏览器打开 http://127.0.0.1:8787</pre>
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <!-- 模型设置抽屉 -->
+  <div class="drawer-mask" id="drawerMask" hidden></div>
+  <aside class="drawer" id="drawer" hidden>
+    <div class="drawer-head">
+      <div>
+        <h3>模型设置</h3>
+        <p>切换推理引擎，立即生效并本地保存</p>
+      </div>
+      <button class="icon-btn" id="drawerClose" type="button" aria-label="关闭">✕</button>
+    </div>
+
+    <div class="drawer-body">
+      <div class="field">
+        <span class="field-label">推理模式</span>
+        <div class="seg" id="modeSeg">
+          <button type="button" data-mode="mock" class="on">本地演示</button>
+          <button type="button" data-mode="api">云端 API</button>
+        </div>
+      </div>
+
+      <div class="field">
+        <span class="field-label">快速预设</span>
+        <div class="preset-grid" id="presetGrid"></div>
+      </div>
+
+      <div class="field api-only">
+        <label>API Base
+          <input id="cfgBase" type="text" placeholder="https://api.openai.com/v1" />
+        </label>
+      </div>
+      <div class="field api-only">
+        <label>API Key
+          <input id="cfgKey" type="password" placeholder="sk-…" autocomplete="off" />
+        </label>
+        <p class="tip">Key 仅保存在本机 <code>outputs/llm_config.json</code>，不会上传。</p>
+      </div>
+      <div class="field api-only">
+        <label>模型名
+          <input id="cfgModel" type="text" placeholder="gpt-4o-mini" />
+        </label>
+      </div>
+
+      <div class="field row2">
+        <label>超时 (秒)
+          <input id="cfgTimeout" type="number" value="30" min="5" max="120" />
+        </label>
+        <label>温度
+          <input id="cfgTemp" type="number" step="0.1" min="0" max="2" value="0.3" />
+        </label>
+      </div>
+
+      <div class="test-row">
+        <button class="secondary" id="btnTest" type="button">测试连接</button>
+        <span class="test-result" id="testResult"></span>
+      </div>
+    </div>
+
+    <div class="drawer-foot">
+      <button class="secondary" id="btnCancel" type="button">取消</button>
+      <button class="primary" id="btnSave" type="button">保存并生效</button>
+    </div>
+  </aside>
+
+  <div class="toast" id="toast" hidden></div>
+  <script src="static/app.js"></script>
+</body>
+</html>

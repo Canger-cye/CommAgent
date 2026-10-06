@@ -1,0 +1,28 @@
+{
+  "scenario_name": "城区三层异构示例",
+  "n_bs": 3,
+  "n_ue": 20,
+  "area_m": 1200,
+  "carrier_ghz": 3.5,
+  "bandwidth_mhz": 100,
+  "tx_power_dbm": 46,
+  "environment": "urban",
+  "alarms": [
+    {
+      "cell_id": "BS-2",
+      "type": "SINR_DEGRADED",
+      "sinr_db": -2.1,
+      "rsrp_dbm": -105.4,
+      "bler": 0.12,
+      "prb_utilization": 0.92,
+      "timestamp": "2026-10-12T14:21:00+08:00"
+    }
+  ],
+  "suggested_queries": [
+    "3 个基站 20 个用户组网，分析平均 SINR 和弱覆盖",
+    "SINR 是 -2dB，BLER 0.12，帮我做根因诊断",
+    "服务距离 150m，2 个同频干扰源，分析 SINR",
+    "优化功率提升小区吞吐",
+    "生成一份网络仿真与诊断报告"
+  ]
+}
